@@ -1,173 +1,178 @@
 <div align="center">
 
-<h1>Aeronyx AI Lead Qualification Agent</h1>
+<h1>Aeronyx AI Customer Support Agent</h1>
 
 [![n8n](https://img.shields.io/badge/Automation-n8n-EA4B71.svg?style=for-the-badge&logo=n8n&logoColor=white)](https://n8n.io/)
-[![AI](https://img.shields.io/badge/AI-Lead%20Qualification-6C63FF.svg?style=for-the-badge)](#)
-[![Google Sheets](https://img.shields.io/badge/Google-Sheets-34A853.svg?style=for-the-badge&logo=googlesheets&logoColor=white)](https://www.google.com/sheets/about/)
+[![WhatsApp](https://img.shields.io/badge/Support-WhatsApp-25D366.svg?style=for-the-badge&logo=whatsapp&logoColor=white)](https://www.whatsapp.com/)
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Qdrant](https://img.shields.io/badge/RAG-Qdrant-DC244C.svg?style=for-the-badge)](https://qdrant.tech/)
+[![Google Drive](https://img.shields.io/badge/Knowledge-Google%20Drive-4285F4.svg?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/)
 
-[Overview](#overview) · [How It Works](#how-it-works) · [Setup](#quick-start) · [Configuration](#configuration) · [Security](#security) · [Roadmap](#roadmap)
+[Overview](#overview) · [Architecture](#workflow-architecture) · [Setup](#quick-start) · [Configuration](#configuration) · [Security](#security) · [Roadmap](#roadmap)
 
 </div>
 
 <p align="center">
-  <em>AI-powered lead qualification automation built with n8n.</em>
+  <em>AI-powered WhatsApp customer support with RAG, memory, and business knowledge retrieval.</em>
 </p>
 
 ---
 
 ## What You Get
 
-- **Automatic lead monitoring.** Detect new leads directly from Google Sheets without manually checking for new entries.
-- **AI-powered qualification.** Analyze incoming lead information using an AI model and predefined qualification criteria.
-- **Structured AI results.** Convert AI responses into structured data that can be used by other automation nodes.
-- **Automatic status updates.** Write qualification results directly back into Google Sheets.
-- **Custom qualification logic.** Modify the AI instructions according to your business, industry, or sales requirements.
-- **Error handling.** Stop and report workflow failures instead of silently losing lead-processing tasks.
-- **Expandable architecture.** Designed as the foundation for a larger AI-powered lead generation and sales automation system.
+- **AI-powered customer support.** Automatically answer customer questions through WhatsApp.
+- **RAG knowledge retrieval.** Retrieve relevant business information before generating responses.
+- **Google Drive knowledge base.** Use business documents stored in Google Drive as support knowledge.
+- **Vector search with Qdrant.** Store and retrieve document embeddings for contextual answers.
+- **Conversation memory.** Maintain recent customer conversation context.
+- **WhatsApp integration.** Receive and send customer messages directly through WhatsApp.
+- **AI Agent architecture.** Allow the AI agent to combine customer messages with retrieved business knowledge.
+- **Automated document processing.** Download and process knowledge documents for vector storage.
+- **Webhook support.** Handle WhatsApp verification and incoming message events.
+- **Expandable support platform.** Designed to evolve into a complete AI customer-service system.
 
 ---
 
 ## Overview
 
-The **Aeronyx AI Lead Qualification Agent** automates the process of reviewing incoming leads.
+The **Aeronyx AI Customer Support Agent** is an intelligent customer-support automation built with n8n.
 
-Instead of manually examining every new prospect, the workflow detects a new lead, sends the available information to an AI model, generates a qualification result, processes the response, and updates the lead automatically.
+It connects WhatsApp conversations with an AI Agent and a Retrieval-Augmented Generation (RAG) knowledge system.
 
-```text
-New Lead
-    │
-    ▼
-Google Sheets
-    │
-    ▼
-New Entry Detected
-    │
-    ▼
-AI Lead Analysis
-    │
-    ▼
-Lead Qualification
-    │
-    ▼
-Structured Result
-    │
-    ▼
-Google Sheets Updated
-```
-
-The current version focuses on **lead analysis and qualification**.
-
----
-
-## How It Works
-
-### 1. Lead Detection
-
-The workflow monitors a configured Google Sheet.
-
-When a new lead is added, the Google Sheets trigger automatically starts the workflow.
-
-### 2. Lead Information Processing
-
-Information associated with the new lead is collected and prepared for AI analysis.
-
-The information available depends on the structure of your Google Sheet.
-
-For example:
+Instead of answering only from the AI model's general knowledge, the system can retrieve relevant information from your business documents and use that context to generate more useful responses.
 
 ```text
-Name
-Company
-Industry
-Website
-Requirements
-Business Information
-Contact Information
+Customer
+   │
+   ▼
+WhatsApp Message
+   │
+   ▼
+Webhook
+   │
+   ▼
+AI Support Agent
+   │
+   ├──────────────► Conversation Memory
+   │
+   └──────────────► RAG Knowledge Retrieval
+                        │
+                        ▼
+                   Qdrant Vector DB
+                        │
+                        ▼
+                  Business Documents
+                        │
+                        ▼
+                  AI Response
+                        │
+                        ▼
+                     WhatsApp
 ```
-
-### 3. AI Lead Qualification
-
-The lead information is passed to the AI qualification node.
-
-The AI evaluates the prospect according to the qualification instructions configured inside the workflow.
-
-Possible qualification factors include:
-
-- Business relevance
-- Industry
-- Company characteristics
-- Customer requirements
-- Sales potential
-- Lead quality
-- Business fit
-
-### 4. Structured Response
-
-The AI response is processed and converted into structured data.
-
-This allows the remaining automation nodes to reliably use the generated result.
-
-### 5. Lead Status Update
-
-The final qualification result is automatically written back to Google Sheets.
-
-The spreadsheet can therefore function as a lightweight lead-management database.
 
 ---
 
 ## Workflow Architecture
 
 ```text
-┌───────────────────────────────┐
-│     Google Sheets Trigger     │
-│        New Lead Added         │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│       Lead Information        │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│      AI Lead Qualification    │
-│                               │
-│     Analyze Lead Details      │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│       Extract AI Result       │
-│      Structured Response      │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│             Merge             │
-│       Workflow Information    │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│      Update Lead Status       │
-│         Google Sheets         │
-└───────────────────────────────┘
+                    ┌─────────────────────┐
+                    │      Customer       │
+                    │      WhatsApp       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      Webhook        │
+                    │ Incoming Message    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Message Check     │
+                    │  Process Messages   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      AI Agent       │
+                    └──────┬───────┬──────┘
+                           │       │
+                  ┌────────┘       └─────────┐
+                  ▼                          ▼
+        ┌──────────────────┐       ┌──────────────────┐
+        │ Conversation     │       │ RAG Retrieval    │
+        │ Memory           │       │                  │
+        └──────────────────┘       └────────┬─────────┘
+                                            │
+                                            ▼
+                                  ┌──────────────────┐
+                                  │ Qdrant Vector DB │
+                                  └────────┬─────────┘
+                                           │
+                                           ▼
+                                  ┌──────────────────┐
+                                  │ Business Context │
+                                  └────────┬─────────┘
+                                           │
+                           ┌───────────────┘
+                           ▼
+                    ┌─────────────────────┐
+                    │   OpenAI Model      │
+                    │ Generate Response   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ WhatsApp Response   │
+                    └─────────────────────┘
 ```
 
 ---
 
-## Workflow Components
+## Knowledge Base Pipeline
+
+The system can build its support knowledge base from documents stored in Google Drive.
+
+```text
+Google Drive
+     │
+     ▼
+Download Documents
+     │
+     ▼
+Data Loader
+     │
+     ▼
+Token Splitter
+     │
+     ▼
+OpenAI Embeddings
+     │
+     ▼
+Qdrant Vector Store
+     │
+     ▼
+Searchable Business Knowledge
+```
+
+This allows the AI support agent to retrieve relevant information when answering customer questions.
+
+---
+
+## Core Components
 
 | Component | Purpose |
 | --- | --- |
-| **Check for new entries** | Monitors Google Sheets for new leads |
-| **Qualify leads with GPT** | Performs AI-powered lead evaluation |
-| **Extract JSON reply** | Converts the AI response into structured information |
-| **Merge** | Combines workflow data |
-| **Update lead status** | Writes the qualification result back to Google Sheets |
-| **Error Handler** | Handles workflow failures |
+| **Webhook** | Receives incoming WhatsApp events |
+| **AI Agent** | Controls AI-powered customer-support responses |
+| **OpenAI Chat Model** | Generates natural-language responses |
+| **RAG** | Retrieves relevant business information |
+| **Qdrant Vector Store** | Stores and retrieves business knowledge embeddings |
+| **Google Drive** | Provides business documents |
+| **Embeddings OpenAI** | Converts document content into searchable vectors |
+| **Token Splitter** | Splits large documents into smaller searchable chunks |
+| **Window Buffer Memory** | Maintains conversation context |
+| **WhatsApp Send** | Sends AI-generated replies to customers |
 
 ---
 
@@ -176,13 +181,13 @@ The spreadsheet can therefore function as a lightweight lead-management database
 ### 1. Clone The Repository
 
 ```bash
-git clone https://github.com/aeronyx03-cpu/ai-lead-generation-agent.git
+git clone https://github.com/aeronyx03-cpu/ai-customer-support-agent.git
 ```
 
 Enter the project:
 
 ```bash
-cd ai-lead-generation-agent
+cd ai-customer-support-agent
 ```
 
 ---
@@ -215,136 +220,235 @@ Select:
 workflow.json
 ```
 
-The complete automation will appear inside the n8n workflow editor.
-
 ---
 
 ## Configuration
 
 <details>
 
-<summary><strong>Google Sheets Setup</strong></summary>
+<summary><strong>WhatsApp Setup</strong></summary>
 
-Connect your Google account through the n8n credential manager.
+Configure your WhatsApp Business integration inside n8n.
 
-Configure the Google Sheets trigger to monitor the spreadsheet containing incoming leads.
+The workflow uses webhook nodes to receive WhatsApp events and WhatsApp nodes to send responses.
 
-The spreadsheet should contain the information required for qualification.
+You will need the appropriate WhatsApp Business / Meta credentials.
 
-Example structure:
+Configure:
 
-| Name | Company | Industry | Website | Requirement | Status |
-| --- | --- | --- | --- | --- | --- |
-| Example Lead | Example Inc. | Technology | example.com | Website Development | Pending |
-
-The exact columns can be customized according to your requirements.
+```text
+Webhook verification
+WhatsApp credentials
+Phone number configuration
+Incoming message events
+Outgoing message permissions
+```
 
 </details>
 
 <details>
 
-<summary><strong>AI Setup</strong></summary>
+<summary><strong>OpenAI Setup</strong></summary>
 
-Configure your AI credentials through the n8n credential manager.
+Connect your OpenAI credentials through the n8n credential manager.
 
-The current workflow contains an AI-powered lead qualification step.
+The workflow uses OpenAI for:
 
-Do not store API keys directly inside the workflow repository.
+```text
+Chat responses
+Embeddings
+RAG processing
+```
+
+Never store real API keys directly inside this repository.
 
 </details>
 
 <details>
 
-<summary><strong>Lead Qualification Logic</strong></summary>
+<summary><strong>Qdrant Setup</strong></summary>
 
-Open:
+The workflow uses Qdrant as its vector database.
 
-```text
-Qualify leads with GPT
-```
+Qdrant stores searchable embeddings generated from your business documents.
 
-inside the n8n workflow.
-
-Modify the qualification instructions according to your requirements.
-
-Example:
+Configure:
 
 ```text
-Analyze the supplied lead.
-
-Evaluate the lead based on:
-
-- Business relevance
-- Company characteristics
-- Customer requirements
-- Sales potential
-- Overall business fit
-
-Return the result in structured format.
+Qdrant URL
+Collection
+Authentication
+Vector-store credentials
 ```
 
-Qualification criteria can be completely customized for different businesses.
+The workflow contains nodes for creating and refreshing the collection.
 
 </details>
+
+<details>
+
+<summary><strong>Google Drive Knowledge Base</strong></summary>
+
+Connect Google Drive through the n8n credential manager.
+
+Store the business documents that the AI should use as its knowledge source.
+
+Examples:
+
+```text
+FAQ documents
+Product information
+Service documentation
+Policies
+Pricing information
+Business procedures
+Support documentation
+```
+
+The workflow downloads these documents and processes them for RAG retrieval.
+
+</details>
+
+<details>
+
+<summary><strong>Conversation Memory</strong></summary>
+
+The workflow contains window-buffer memory.
+
+This allows the support agent to retain recent conversation context instead of treating every message independently.
+
+Memory configuration can be adjusted according to the support use case.
+
+</details>
+
+---
+
+## How RAG Works
+
+RAG stands for **Retrieval-Augmented Generation**.
+
+Instead of asking the AI model to answer directly:
+
+```text
+Customer Question
+        ↓
+      AI Model
+        ↓
+      Answer
+```
+
+the system retrieves relevant business information first:
+
+```text
+Customer Question
+        │
+        ▼
+Search Business Knowledge
+        │
+        ▼
+Retrieve Relevant Documents
+        │
+        ▼
+Send Context + Question to AI
+        │
+        ▼
+Generate Context-Aware Response
+```
+
+This architecture is especially useful for customer support because answers can be based on your own business information.
+
+---
+
+## Example Customer Flow
+
+```text
+Customer:
+"What is your refund policy?"
+
+        ↓
+
+WhatsApp receives message
+
+        ↓
+
+AI Agent identifies request
+
+        ↓
+
+RAG searches Qdrant
+
+        ↓
+
+Relevant refund-policy document retrieved
+
+        ↓
+
+AI creates response using retrieved information
+
+        ↓
+
+Customer receives response on WhatsApp
+```
 
 ---
 
 ## Testing
 
-Before activating the workflow, perform a complete test.
+Before activating the workflow:
 
-### Add A Test Lead
+1. Configure WhatsApp credentials.
+2. Configure OpenAI.
+3. Connect Google Drive.
+4. Configure Qdrant.
+5. Load sample business documents.
+6. Build the vector collection.
+7. Send a test WhatsApp message.
+8. Verify that relevant business information is retrieved.
+9. Verify the generated AI response.
+10. Confirm that the WhatsApp reply is delivered.
 
-Add a sample entry to your configured Google Sheet.
-
-The expected execution should be:
+Expected flow:
 
 ```text
-Test Lead Added
+Customer Message
        │
        ▼
-n8n Detects Entry
+Webhook
        │
        ▼
-AI Receives Lead
+AI Agent
        │
        ▼
-AI Generates Qualification
+RAG Search
        │
        ▼
-Response Processed
+Business Knowledge
        │
        ▼
-Google Sheet Updated
+AI Response
+       │
+       ▼
+WhatsApp Reply
 ```
-
-Verify that:
-
-- The correct lead is detected.
-- The correct information reaches the AI.
-- The AI returns the expected structure.
-- The qualification result is parsed correctly.
-- Google Sheets receives the updated result.
-- Error handling works correctly.
-
-Once testing is successful, activate the workflow.
 
 ---
 
 ## Security
 
-Credentials should be managed through **n8n's credential management system**.
-
 Never commit:
 
 ```text
-API Keys
+OpenAI API Keys
+WhatsApp Access Tokens
+Meta Credentials
+Qdrant API Keys
+Google OAuth Tokens
 Passwords
-OAuth Tokens
-Database Credentials
-Private Tokens
-Service Account Secrets
+Webhook Secrets
+Private Service Credentials
 ```
+
+Use the **n8n credential manager** for sensitive information.
 
 The repository ignores common secret files:
 
@@ -360,7 +464,7 @@ credentials.json
 ## Repository Structure
 
 ```text
-ai-lead-generation-agent/
+ai-customer-support-agent/
 │
 ├── workflow.json
 ├── README.md
@@ -369,121 +473,99 @@ ai-lead-generation-agent/
 
 ### `workflow.json`
 
-Contains the complete n8n automation.
+Contains the complete n8n customer-support workflow.
 
 ### `README.md`
 
-Contains project documentation, architecture, setup instructions, and configuration information.
+Contains project documentation, setup instructions, and system architecture.
 
 ### `.gitignore`
 
-Prevents common secret and environment files from being accidentally committed.
+Helps prevent secrets and local configuration files from being accidentally committed.
 
 ---
 
 ## Current Capabilities
 
-The current system handles:
+The current architecture supports:
 
 ```text
-Incoming Lead
-      ↓
-AI Analysis
-      ↓
-Qualification
-      ↓
-Structured Result
-      ↓
-Lead Status Update
+WhatsApp Customer Messages
+        ↓
+AI Agent
+        ↓
+Conversation Memory
+        ↓
+RAG Knowledge Retrieval
+        ↓
+OpenAI Response
+        ↓
+WhatsApp Reply
 ```
 
-Automatic lead discovery and outreach are not part of the current version.
+It also contains the infrastructure required to build and refresh the vector knowledge base.
 
 ---
 
 ## Roadmap
 
-The system is designed to eventually become a complete AI-powered lead generation and sales automation platform.
+Future versions can include:
 
-Planned capabilities include:
-
-- **Automatic Lead Discovery**
-  - Find potential businesses and prospects automatically.
-
-- **Business Data Enrichment**
-  - Collect additional information about companies and prospects.
-
-- **Website Analysis**
-  - Analyze company websites before qualification.
-
-- **AI Lead Scoring**
-  - Assign numerical lead-quality scores.
-
-- **Duplicate Detection**
-  - Prevent the same prospect from entering the system multiple times.
-
-- **Personalized Outreach**
-  - Generate customized messages for each qualified lead.
-
-- **Automated Email Outreach**
-  - Automatically contact approved prospects.
-
-- **Follow-Up Automation**
-  - Send intelligent follow-ups based on responses and timing.
-
+- **Human Support Escalation**
+- **Automatic Ticket Creation**
+- **Sentiment Analysis**
+- **Urgency Detection**
+- **Customer Identification**
 - **CRM Integration**
-  - Synchronize qualified leads with CRM platforms.
-
-- **Human Approval**
-  - Allow manual approval before outreach.
-
-- **Analytics**
-  - Track qualification rates, outreach performance, and conversions.
+- **Conversation Analytics**
+- **Multilingual Support**
+- **Voice Message Support**
+- **Automatic Ticket Classification**
+- **Email Support**
+- **Telegram Support**
+- **Website Chat Support**
+- **Support Performance Dashboard**
+- **Customer Satisfaction Tracking**
+- **Multiple AI Provider Support**
 
 ---
 
 ## Future Architecture
 
 ```text
-Lead Discovery
-      │
-      ▼
-Data Enrichment
-      │
-      ▼
-Website Analysis
-      │
-      ▼
-AI Lead Scoring
-      │
-      ▼
-Lead Qualification
-      │
-      ▼
-Human Approval
-      │
-      ▼
-Personalized Outreach
-      │
-      ▼
-Automated Follow-Up
-      │
-      ▼
-CRM
-      │
-      ▼
-Conversion Analytics
+                 Customer
+                    │
+           ┌────────┼────────┐
+           ▼        ▼        ▼
+       WhatsApp   Website   Email
+           │        │        │
+           └────────┼────────┘
+                    ▼
+              AI Support Agent
+                    │
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+      Memory       RAG       CRM Data
+        │           │           │
+        └───────────┼───────────┘
+                    ▼
+              AI Decision
+                ↙       ↘
+          Resolve       Escalate
+             │              │
+             ▼              ▼
+        Customer       Human Agent
 ```
 
 ---
 
 ## Project Goal
 
-**Aeronyx AI Lead Qualification Agent** is designed as the first component of a modular AI-powered sales automation ecosystem.
+The goal of the **Aeronyx AI Customer Support Agent** is to create a modular customer-support platform that combines:
 
-The goal is to automate repetitive lead-processing tasks while maintaining configurable qualification logic and allowing the system to expand into:
+**AI Agents + Business Knowledge + Conversation Memory + Messaging Automation**
 
-**Lead Discovery → Qualification → Outreach → Follow-Up → Conversion**
+The long-term system is designed to automate routine customer queries while allowing complex or sensitive conversations to be escalated to human support.
 
 ---
 
